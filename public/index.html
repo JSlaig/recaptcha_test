@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <title>reCAPTCHA demo: Simple page</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  </head>
+
+
+  <body>
+    <form action="/submit" id="submit_form" method="post">
+      <div class="g-recaptcha" data-sitekey="6Lc4eSgbAAAAAGBwoqLDd8TiKon6f99XMoGTd2m6"></div>
+      <br/>
+      <input type="submit" value="Submit">
+    </form>
+    <script>
+
+        document.getElementById('submit_form').addEventListener('submit', submitForm);
+
+        function submitForm(){
+            e.preventDefault();
+            
+            console.log(123);
+
+            const captcha = document.querySelector('#g-recaptcha-response').value;
+
+            fetch('/submit', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify({captcha: captcha})
+            })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+            })  
+        }
+    </script>
+  </body>
+</html>
